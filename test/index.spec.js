@@ -1,36 +1,22 @@
+
 describe('the random number guess game', function(){
-  beforeEach(function(){
-      document.getElementById('result').innerHTML = '';
-  });
+    var app;
 
-  it('reads from the GUI and sets the result', function(){
-      start();
-      expect(document.getElementById('result').innerHTML).toEqual("");
-      document.getElementById('randNumberInput').value = 100;
+    beforeEach(function(){
+        app = application();
+    });
 
-      document.getElementById('compare-numbers-button').click();
+    it('compares numbers', function(){
+        expect(app.compareNumbers(10, 20)).toEqual(app.smaller());
+        expect(app.compareNumbers(20, 10)).toEqual(app.bigger());
+        expect(app.compareNumbers(10, 10)).toEqual(app.win());
+    });
+    it('validates that input numbers are correct', function(){
+        expect(app.compareNumbers(10, 'abcd')).toEqual(app.error());
+    });
 
-      expect(document.getElementById('result').innerHTML).not.toEqual("");
-  });
-
-  it('generates a random number', function(){
-     expect(getRandom()).toBeGreaterThanOrEqual(1);
-     expect(getRandom()).toBeLessThanOrEqual(100);
-  });
-
-  it('compares number introduced by the user with a random', function(){
-      document.getElementById('randNumberInput').value = 20;
-
-      compareNumbers(40);
-
-      expect(document.getElementById('result').innerHTML)
-          .toEqual(bigger());
-  });
-  
-  it('should send message error when input is empty', function(){
-    document.getElementById('randNumberInput').innerHTML = '';
-    expect(document.getElementById('error').innerHTML).toEqual("Error, introduce un número");
-
-  });
-
+    it('generates a random number', function(){
+         expect(app.getRandom()).toBeGreaterThanOrEqual(1);
+         expect(app.getRandom()).toBeLessThanOrEqual(100);
+    });
 });

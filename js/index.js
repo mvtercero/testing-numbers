@@ -1,59 +1,65 @@
-function compareNumbers (randNumber) {
-  const inputNumber = getInputNumber();
-  if (inputNumber === "") {
-    setError(error());
-  } else {
-      if (randNumber > inputNumber) {
-        setResult(bigger());
-    }
-      else if (randNumber < inputNumber) {
-        setResult(smaller());
-    }
+function application() {
+  function compareNumbers (randomNumber, userSelectedNumber) {
+      if (isNaN(Number(userSelectedNumber))) {
+          return error();
+      }
+      if (randomNumber > userSelectedNumber) {
+          return bigger();
+      }
+      else if (randomNumber < userSelectedNumber) {
+          return smaller();
+      }
       else {
-        setResult(win());
+          return win();
       }
   }
-  
-}
 
-function getRandom (event) {
-  return (Math.floor(Math.random() * (100 - 1)) + 1);
-}
+  function getRandom () {
+      return (Math.floor(Math.random() * (100 - 1)) + 1);
+  }
 
-function getInputNumber () {
-  return Number(document.getElementById('randNumberInput').value);
-}
+  function getUserSelectedNumber () {
+      return Number(document.getElementById('randNumberInput').value);
+  }
 
+  function setResult(result) {
+      document.getElementById('result').innerHTML = result;
+  }
 
-function setResult(result) {
-  document.getElementById('result').innerHTML = result;
-}
+  function error () {
+      return "Please introduce an integer";
+  }
+  function bigger () {
+      return "The random is bigger";
+  }
 
-function bigger () {
-  return "The random is bigger";
-}
+  function smaller () {
+      return "The random is smaller";
+  }
 
-function smaller () {
-  return "The random is smaller";
-}
+  function win () {
+      return "YOU WIN!!!";
+  }
 
-function win () {
-  return "YOU WIN!!!";
-}
+  var randomNumber;
 
-function setError (error) {
-  document.getElementById('error').innerHTML = error;
-}
+  function onClick(){
+      setResult(compareNumbers(randomNumber, getUserSelectedNumber()));
+  }
 
-function error () {
-  return "Error, introduce un número";
-}
+  function start() {
+      randomNumber = getRandom();
+      var comparisonTrigger = document.getElementById("compare-numbers-button");
+      comparisonTrigger.addEventListener("click", onClick);
+  }
 
-function start() {
-  var randomNumber = getRandom();
-  var comparisonTrigger = document.getElementById("compare-numbers-button");
-  comparisonTrigger.addEventListener("click", function(event){
-    event.preventDefault();  
-    compareNumbers(randomNumber);
-  });
+  return {
+      compareNumbers: compareNumbers,
+      getRandom: getRandom, 
+      start: start,
+      error: error,
+      smaller: smaller,
+      bigger: bigger,
+      win: win
+  }
 }
