@@ -1,4 +1,15 @@
-function application() {
+var numbers = {
+  randomize: function () {
+      return (Math.floor(Math.random() * (100 - 1)) + 1);
+  }
+};
+
+function getApplication(randomize) {
+  var randomFunction = randomize;
+  if (typeof(randomize) != 'function') {
+      randomFunction = randomizeDefault;
+  }
+
   function compareNumbers (randomNumber, userSelectedNumber) {
       if (isNaN(Number(userSelectedNumber))) {
           return error();
@@ -14,7 +25,7 @@ function application() {
       }
   }
 
-  function getRandom () {
+  function randomizeDefault () {
       return (Math.floor(Math.random() * (100 - 1)) + 1);
   }
 
@@ -41,26 +52,19 @@ function application() {
       return "YOU WIN!!!";
   }
 
-  var randomNumber;
-
-  function onClick(){
-      setResult(compareNumbers(randomNumber, getUserSelectedNumber()));
-  }
-
   function start() {
-      randomNumber = getRandom();
+      var randomNumber = randomFunction();
       var comparisonTrigger = document.getElementById("compare-numbers-button");
-      comparisonTrigger.addEventListener("click", onClick);
+      comparisonTrigger.addEventListener("click", function (){
+          setResult(compareNumbers(randomNumber, getUserSelectedNumber()))});
   }
-
 
   return {
       compareNumbers: compareNumbers,
-      getRandom: getRandom, 
       start: start,
       error: error,
       smaller: smaller,
       bigger: bigger,
       win: win
   }
-}
+};

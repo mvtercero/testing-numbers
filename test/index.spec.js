@@ -1,10 +1,11 @@
 
 describe('the random number guess game', function(){
-    var app;
-
+    var app, randomize, randomNumber;
 
     beforeEach(function(){
-        app = application();
+        randomNumber = 10;
+        randomize = function(){ return randomNumber };
+        app = getApplication(randomize);
     });
 
     it('compares numbers', function(){
@@ -16,19 +17,23 @@ describe('the random number guess game', function(){
         expect(app.compareNumbers(10, 'abcd')).toEqual(app.error());
     });
 
-    it('generates a random number', function(){
-         expect(app.getRandom()).toBeGreaterThanOrEqual(1);
-         expect(app.getRandom()).toBeLessThanOrEqual(100);
+    it('works in integration with the UI', function(){
+        app.start(randomNumber);
+        simulateThatUserIntroducesValue(20);
+
+        doClick();
+
+        expect(readResult()).toEqual(app.smaller());
     });
 
-    it ('works button click', function(){
-        app.start();
-        var input = document.getElementById('randNumberInput').value = 77;
-        document.getElementById('compare-numbers-button').click();
-        var result= document.getElementById('result').innerHTML;
-        expect(result).toEqual(app.smaller());
-
-    });
-
+    function simulateThatUserIntroducesValue(val) {
+        document.getElementById('randNumberInput').value = val;
+    }
+    function doClick() {
+        document.getElementById("compare-numbers-button").click();
+    }
+    function readResult() {
+        return document.getElementById('result').innerHTML;
+    }
 });
 
