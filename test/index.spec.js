@@ -2,6 +2,7 @@
 describe('the random number guess game', function(){
     var app;
 
+
     beforeEach(function(){
         app = application();
     });
@@ -19,4 +20,15 @@ describe('the random number guess game', function(){
          expect(app.getRandom()).toBeGreaterThanOrEqual(1);
          expect(app.getRandom()).toBeLessThanOrEqual(100);
     });
+
+    it ('works button click', function(){
+        app.start();
+        var input = document.getElementById('randNumberInput').value = 77;
+        document.getElementById('compare-numbers-button').click();
+        var result= document.getElementById('result').innerHTML;
+        expect(result).toEqual(app.smaller());
+
+    });
+
 });
+

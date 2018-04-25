@@ -53,6 +53,7 @@ function application() {
       comparisonTrigger.addEventListener("click", onClick);
   }
 
+
   return {
       compareNumbers: compareNumbers,
       getRandom: getRandom, 
